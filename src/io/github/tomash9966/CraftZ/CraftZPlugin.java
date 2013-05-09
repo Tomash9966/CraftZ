@@ -75,11 +75,9 @@ public class CraftZPlugin extends JavaPlugin{
 							}
 							else if(args.length > 1){
 
-								int i = Integer.valueOf(args[1]);
-
 								Location location = player.getLocation();
 
-								this.config.addSpawn(location, i - 1);
+								int i = this.config.addSpawn(location, Integer.valueOf(args[1]) - 1);
 
 								player.sendMessage(ChatColor.GREEN + "You have set spawn no. " + String.valueOf(i));
 

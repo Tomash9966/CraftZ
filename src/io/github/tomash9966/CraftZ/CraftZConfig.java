@@ -83,6 +83,65 @@ public class CraftZConfig {
 
 	}
 
+	public int addSpawn(Location location, int i){
+
+		ConfigurationSection spawn = this.data.getConfigurationSection("data");
+
+		String world = location.getWorld().getName();
+
+		double x = location.getX();
+		double y = location.getY();
+		double z = location.getZ();
+
+		float p = location.getPitch();
+		float a = location.getYaw();
+
+		if(this.data.isList("data.spawn")){
+
+			List<String> spawnlist = spawn.getStringList("spawn");
+
+			if(i >= spawnlist.size() - 1){
+
+				spawnlist.add(world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
+
+				spawn.set("spawn", spawnlist);
+
+				saveData();
+
+				return spawnlist.size();
+
+			}
+			else
+			{
+
+				spawnlist.set(i, world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
+
+				spawn.set("spawn", spawnlist);
+
+				saveData();
+
+				return spawnlist.size();
+
+			}
+
+		}
+		else
+		{
+
+			List<String> spawnlist = new ArrayList<String>();
+
+			spawnlist.set(i, world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
+
+			spawn.set("spawn", spawnlist);
+
+			saveData();
+
+			return spawnlist.size();
+
+		}
+
+	}
+
 	public int addSpawn(Location location){
 
 		ConfigurationSection spawn = this.data.getConfigurationSection("data");
@@ -123,53 +182,6 @@ public class CraftZConfig {
 			return spawnlist.size();
 
 		}
-
-	}
-
-	public void addSpawn(Location location, int i){
-
-		ConfigurationSection spawn = this.data.getConfigurationSection("data");
-
-		String world = location.getWorld().getName();
-
-		double x = location.getX();
-		double y = location.getY();
-		double z = location.getZ();
-
-		float p = location.getPitch();
-		float a = location.getYaw();
-
-		if(this.data.isList("data.spawn")){
-
-			List<String> spawnlist = spawn.getStringList("spawn");
-
-			if(i - 1 > spawnlist.size()){
-
-				addSpawn(location);
-
-			}
-			else
-			{
-
-				spawnlist.set(i, world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
-
-			}
-
-			spawn.set("spawn", spawnlist);
-
-		}
-		else
-		{
-
-			List<String> spawnlist = new ArrayList<String>();
-
-			spawnlist.set(i, world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
-
-			spawn.set("spawn", spawnlist);
-
-		}
-
-		saveData();
 
 	}
 
