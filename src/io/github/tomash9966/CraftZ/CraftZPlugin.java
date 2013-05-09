@@ -15,14 +15,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CraftZPlugin extends JavaPlugin{
 
 	public CraftZPlayerTeleport teleport;
-	public CraftZConfig config;
+	public CraftZData config;
+	public CraftZChestData chestdata;
+	public CraftZScheduler scheduler;
+
 	PlayerDeathListener playerdeath;
 	PlayerInteractListener playerinteract;
 
 	public void onEnable(){
 
 		this.teleport = new CraftZPlayerTeleport(this);
-		this.config = new CraftZConfig(this);
+		this.config = new CraftZData(this);
+		this.chestdata = new CraftZChestData(this);
+		this.scheduler = new CraftZScheduler(this);
 
 		this.playerdeath = new PlayerDeathListener(this);
 		this.playerinteract = new PlayerInteractListener(this);
@@ -65,6 +70,14 @@ public class CraftZPlugin extends JavaPlugin{
 
 						}
 
+						if(args[0].equalsIgnoreCase("addchest")){
+
+							this.playerinteract.loot.put(player.getName(), true);
+
+							player.sendMessage(ChatColor.GOLD + "Click chest in which you want to be loot.");
+
+						}
+
 						if(args[0].equalsIgnoreCase("setlobby")){
 
 							this.config.setLobby(player);
@@ -92,6 +105,7 @@ public class CraftZPlugin extends JavaPlugin{
 							player.sendMessage(ChatColor.GREEN + "You have been teleported to lobby!");
 
 						}
+
 
 						if(args[0].equalsIgnoreCase("addspawn")){
 

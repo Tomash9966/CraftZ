@@ -12,13 +12,13 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-public class CraftZConfig {
+public class CraftZData {
 
 	CraftZPlugin plugin;
 
 	YamlConfiguration data;
 
-	public CraftZConfig(CraftZPlugin plugin){
+	public CraftZData(CraftZPlugin plugin){
 
 		this.plugin = plugin;
 		this.data = YamlConfiguration.loadConfiguration(new File(this.plugin.getDataFolder(), "data.yml"));
