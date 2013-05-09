@@ -5,6 +5,7 @@ import io.github.tomash9966.CraftZ.listeners.PlayerJoinListener;
 import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -58,6 +59,31 @@ public class CraftZPlugin extends JavaPlugin{
 							this.teleport.lobbyTeleport(player);
 
 							player.sendMessage(ChatColor.GREEN + "You have been teleported to lobby!");
+
+						}
+
+						if(args[0].equalsIgnoreCase("addspawn")){
+
+							if(args.length == 1){
+
+								Location location = player.getLocation();
+
+								int i = this.config.addSpawn(location);
+
+								player.sendMessage(ChatColor.GREEN + "You have set spawn no. " + String.valueOf(i));
+
+							}
+							else if(args.length > 1){
+
+								int i = Integer.valueOf(args[1]);
+
+								Location location = player.getLocation();
+
+								this.config.addSpawn(location, i);
+
+								player.sendMessage(ChatColor.GREEN + "You have set spawn no. " + String.valueOf(i));
+
+							}
 
 						}
 
