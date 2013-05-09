@@ -7,6 +7,9 @@ commands:
   craftz:
     description: It allows to manage plugin.
     usage: /craftz
+  z:
+    description: It allows to manage plugin.
+    usage: /z
 permissions:
     craftz.manage:
       description: This permission allows to manage plugin.

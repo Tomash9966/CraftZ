@@ -38,7 +38,7 @@ public class CraftZPlugin extends JavaPlugin{
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 
-		if(cmd.getName().equalsIgnoreCase("craftz")){
+		if(cmd.getName().equalsIgnoreCase("craftz") || cmd.getName().equalsIgnoreCase("z")){
 
 			if(sender instanceof Player){
 
