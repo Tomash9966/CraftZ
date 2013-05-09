@@ -12,7 +12,7 @@ public class PlayerDeathListener implements Listener {
 
 	CraftZPlugin plugin;
 
-	public PlayerDeathListener(PlayerDeathListener playerdeath, CraftZPlugin plugin) {
+	public PlayerDeathListener(CraftZPlugin plugin) {
 
 		this.plugin = plugin;
 

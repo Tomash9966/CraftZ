@@ -24,10 +24,11 @@ public class CraftZPlugin extends JavaPlugin{
 		this.teleport = new CraftZPlayerTeleport(this);
 		this.config = new CraftZConfig(this);
 
-		this.playerdeath = new PlayerDeathListener(playerdeath, this);
-		this.playerinteract = new PlayerInteractListener(playerinteract, this);
+		this.playerdeath = new PlayerDeathListener(this);
+		this.playerinteract = new PlayerInteractListener(this);
 
 		getServer().getPluginManager().registerEvents(this.playerdeath, this);
+		getServer().getPluginManager().registerEvents(this.playerinteract, this);
 
 		getLogger().log(Level.INFO, "CraftZ has been enabled!");
 

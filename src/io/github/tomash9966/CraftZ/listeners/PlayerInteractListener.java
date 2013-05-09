@@ -14,7 +14,7 @@ public class PlayerInteractListener implements Listener{
 
 	CraftZPlugin plugin;
 
-	public PlayerInteractListener(PlayerInteractListener playerinteract, CraftZPlugin plugin) {
+	public PlayerInteractListener(CraftZPlugin plugin) {
 
 		this.plugin = plugin;
 
