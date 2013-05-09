@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 
 public class CraftZConfig {
 
-	CraftZPlayerTeleport teleport;
 	CraftZPlugin plugin;
 
 	YamlConfiguration data;

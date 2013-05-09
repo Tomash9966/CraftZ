@@ -1,6 +1,7 @@
 package io.github.tomash9966.CraftZ;
 
 import io.github.tomash9966.CraftZ.listeners.PlayerDeathListener;
+import io.github.tomash9966.CraftZ.listeners.PlayerInteractListener;
 
 import java.util.logging.Level;
 
@@ -16,6 +17,7 @@ public class CraftZPlugin extends JavaPlugin{
 	public CraftZPlayerTeleport teleport;
 	public CraftZConfig config;
 	PlayerDeathListener playerdeath;
+	PlayerInteractListener playerinteract;
 
 	public void onEnable(){
 
@@ -23,6 +25,7 @@ public class CraftZPlugin extends JavaPlugin{
 		this.config = new CraftZConfig(this);
 
 		this.playerdeath = new PlayerDeathListener(playerdeath, this);
+		this.playerinteract = new PlayerInteractListener(playerinteract, this);
 
 		getServer().getPluginManager().registerEvents(this.playerdeath, this);
 
