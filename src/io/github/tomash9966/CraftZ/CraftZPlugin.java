@@ -12,11 +12,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CraftZPlugin extends JavaPlugin{
 
+	public CraftZPlayerTeleport teleport;
 	public CraftZConfig config;
 	public PlayerJoinListener playerjoin;
 
 	public void onEnable(){
 
+		this.teleport = new CraftZPlayerTeleport(this, config);
 		this.config = new CraftZConfig(this);
 
 		getServer().getPluginManager().registerEvents(playerjoin, this);
@@ -43,11 +45,19 @@ public class CraftZPlugin extends JavaPlugin{
 
 					if(args.length > 0){
 
-						if(args[0].equals("setlobby")){
+						if(args[0].equalsIgnoreCase("setlobby")){
 
 							this.config.setLobby(player);
 
 							player.sendMessage(ChatColor.GREEN + "You have set lobby!");
+
+						}
+
+						if(args[0].equalsIgnoreCase("lobby")){
+
+							this.teleport.lobbyTeleport(player);
+
+							player.sendMessage(ChatColor.GREEN + "You have been teleported to lobby!");
 
 						}
 
