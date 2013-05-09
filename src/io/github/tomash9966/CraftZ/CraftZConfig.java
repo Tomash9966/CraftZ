@@ -83,6 +83,42 @@ public class CraftZConfig {
 
 	}
 
+	public boolean delSpawn(int i){
+
+		ConfigurationSection spawn = this.data.getConfigurationSection("data");
+
+		if(this.data.isList("data.spawn")){
+
+			List<String> spawnlist = spawn.getStringList("spawn");
+
+			if(i + 1 <= spawnlist.size()){
+
+				spawnlist.remove(i);
+
+				spawn.set("spawn", spawnlist);
+
+				saveData();
+
+				return true;
+
+			}
+			else
+			{
+
+				return false;
+
+			}
+
+		}
+		else
+		{
+
+			return false;
+
+		}
+
+	}
+
 	public int addSpawn(Location location, int i){
 
 		ConfigurationSection spawn = this.data.getConfigurationSection("data");

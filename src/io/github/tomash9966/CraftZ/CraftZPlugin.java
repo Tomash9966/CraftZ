@@ -46,6 +46,18 @@ public class CraftZPlugin extends JavaPlugin{
 
 					if(args.length > 0){
 
+						if(args[0].equalsIgnoreCase("help")){
+
+							sender.sendMessage(ChatColor.GRAY + "##### " + ChatColor.DARK_GRAY + ChatColor.BOLD + "Craft" + ChatColor.DARK_RED + ChatColor.BOLD + "Z" + ChatColor.GRAY + " #####");
+							sender.sendMessage(ChatColor.GOLD + "/craftz help" + ChatColor.BLUE + " - displays help.");
+							sender.sendMessage(ChatColor.GOLD + "/craftz setlobby" + ChatColor.BLUE + " - sets lobby.");
+							sender.sendMessage(ChatColor.GOLD + "/craftz lobby" + ChatColor.BLUE + " - teleports to lobby.");
+							sender.sendMessage(ChatColor.GOLD + "/craftz addspawn [number]" + ChatColor.BLUE + " - adds spawn location after game start.");
+							sender.sendMessage(ChatColor.GOLD + "/craftz delspawn <number>" + ChatColor.BLUE + " - deletes spawn location.");
+							sender.sendMessage(ChatColor.GRAY + "##################");
+
+						}
+
 						if(args[0].equalsIgnoreCase("setlobby")){
 
 							this.config.setLobby(player);
@@ -85,11 +97,39 @@ public class CraftZPlugin extends JavaPlugin{
 
 						}
 
+						if(args[0].equalsIgnoreCase("delspawn")){
+
+							if(args.length > 1){
+
+								int i = Integer.valueOf(args[1]);
+
+								if(this.config.delSpawn(i - 1)){
+
+									player.sendMessage(ChatColor.GREEN + "Spawn no. " + String.valueOf(i) + " has been deleted.");
+
+								}
+								else
+								{
+
+									player.sendMessage(ChatColor.RED + "There's no spawn no. " + String.valueOf(i) + "!");
+
+								}
+
+							}
+							else
+							{
+
+								player.sendMessage(ChatColor.RED + "Invalid arguments! " + ChatColor.GOLD + "Example: /craftz delspawn <number>");
+
+							}
+
+						}
+
 					}
 					else
 					{
 
-						player.sendMessage(ChatColor.BLUE + "Available arguments: " + ChatColor.GOLD + "setlobby, lobby, addspawn, delspawn");
+						player.sendMessage(ChatColor.BLUE + "Available arguments: " + ChatColor.GOLD + "help, setlobby, lobby, addspawn, delspawn");
 
 					}
 
