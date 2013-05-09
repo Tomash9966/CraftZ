@@ -66,6 +66,14 @@ public class CraftZPlugin extends JavaPlugin{
 
 						}
 
+						if(args[0].equalsIgnoreCase("spawn")){
+
+							this.teleport.randomSpawn(player);
+
+							player.sendMessage(ChatColor.GOLD + "The game has started. Good luck!");
+
+						}
+
 						if(args[0].equalsIgnoreCase("lobby")){
 
 							this.teleport.lobbyTeleport(player);

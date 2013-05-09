@@ -20,4 +20,12 @@ public class CraftZPlayerTeleport {
 
 	}
 
+	public void randomSpawn(Player player){
+
+		Location spawn = this.plugin.config.randomSpawn(player);
+
+		player.teleport(spawn);
+
+	}
+
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
@@ -114,6 +115,43 @@ public class CraftZConfig {
 		{
 
 			return false;
+
+		}
+
+	}
+
+	public Location randomSpawn(Player player){
+
+		ConfigurationSection spawn = this.data.getConfigurationSection("data");
+
+		if(this.data.isList("data.spawn")){
+
+			List<String> spawnlist = spawn.getStringList("spawn");
+
+			int random = (int)(Math.round(Math.random() * spawnlist.size()));
+
+			String[] spawnstring = spawnlist.get(random).trim().split(":");
+
+			World world = Bukkit.getWorld(spawnstring[0]);
+			double x = Double.parseDouble(spawnstring[1]);
+			double y = Double.parseDouble(spawnstring[2]);
+			double z = Double.parseDouble(spawnstring[3]);
+			float p = (float) Double.parseDouble(spawnstring[4]);
+			float a = (float) Double.parseDouble(spawnstring[5]);
+
+			Location randomspawn = new Location(world, x, y, z);
+			randomspawn.setPitch(p);
+			randomspawn.setYaw(a);
+
+			return randomspawn;
+
+		}
+		else
+		{
+
+			Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "There's no spawn! Please add them!");
+
+			return null;
 
 		}
 
