@@ -4,13 +4,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class CraftZConfig {
 
+	CraftZPlayerTeleport teleport;
 	CraftZPlugin plugin;
 
 	YamlConfiguration data;
@@ -35,6 +38,26 @@ public class CraftZConfig {
     	}
 
 	}
+
+    public Location getLobby(){
+
+    	ConfigurationSection lobby = this.data.getConfigurationSection("data.lobby");
+
+    	World world = Bukkit.getWorld(lobby.getString("w"));
+
+    	double x = lobby.getDouble("x");
+    	double y = lobby.getDouble("y");
+    	double z = lobby.getDouble("z");
+    	float p = (float) lobby.getDouble("p");
+    	float a = (float) lobby.getDouble("a");
+
+    	Location lobbyloc = new Location(world, x, y, z);
+    	lobbyloc.setPitch(p);
+    	lobbyloc.setYaw(a);
+
+    	return lobbyloc;
+
+    }
 
 	public void setLobby(Player player){
 
@@ -79,7 +102,7 @@ public class CraftZConfig {
 
 			spawnlist.add(world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
 
-			spawn.set("data.spawn", spawnlist);
+			spawn.set("spawn", spawnlist);
 
 			saveData();
 
@@ -93,7 +116,7 @@ public class CraftZConfig {
 
 			spawnlist.add(world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
 
-			spawn.set("data.spawn", spawnlist);
+			spawn.set("spawn", spawnlist);
 
 			saveData();
 
@@ -120,9 +143,19 @@ public class CraftZConfig {
 
 			List<String> spawnlist = spawn.getStringList("spawn");
 
-			spawnlist.set(i, world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
+			if(i - 1 > spawnlist.size()){
 
-			spawn.set("data.spawn", spawnlist);
+				addSpawn(location);
+
+			}
+			else
+			{
+
+				spawnlist.set(i, world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
+
+			}
+
+			spawn.set("spawn", spawnlist);
 
 		}
 		else
@@ -132,7 +165,7 @@ public class CraftZConfig {
 
 			spawnlist.set(i, world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ":" + String.valueOf(p) + ":" + String.valueOf(a));
 
-			spawn.set("data.spawn", spawnlist);
+			spawn.set("spawn", spawnlist);
 
 		}
 

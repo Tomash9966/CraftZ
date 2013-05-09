@@ -19,10 +19,10 @@ public class CraftZPlugin extends JavaPlugin{
 
 	public void onEnable(){
 
-		this.teleport = new CraftZPlayerTeleport(this, config);
+		this.teleport = new CraftZPlayerTeleport(this);
 		this.config = new CraftZConfig(this);
 
-		getServer().getPluginManager().registerEvents(playerjoin, this);
+		//getServer().getPluginManager().registerEvents(playerjoin, this);
 
 		getLogger().log(Level.INFO, "CraftZ has been enabled!");
 
@@ -79,7 +79,7 @@ public class CraftZPlugin extends JavaPlugin{
 
 								Location location = player.getLocation();
 
-								this.config.addSpawn(location, i);
+								this.config.addSpawn(location, i - 1);
 
 								player.sendMessage(ChatColor.GREEN + "You have set spawn no. " + String.valueOf(i));
 
