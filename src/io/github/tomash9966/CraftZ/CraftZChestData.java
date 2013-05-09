@@ -46,4 +46,34 @@ public class CraftZChestData {
 
 	}
 
+	public void setChestLastDestroy(Chest chest){
+
+		String world = chest.getWorld().getName();
+
+		int x = chest.getX();
+		int y = chest.getY();
+		int z = chest.getZ();
+
+		long systemmilis = System.currentTimeMillis();
+
+		this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z), systemmilis);
+
+		saveData();
+
+	}
+
+	public long getChestLastDestroy(Chest chest){
+
+		String world = chest.getWorld().getName();
+
+		int x = chest.getX();
+		int y = chest.getY();
+		int z = chest.getZ();
+
+		long lastdestroy = this.chestdata.getLong("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z));
+
+		return lastdestroy;
+
+	}
+
 }
