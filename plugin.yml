@@ -1,0 +1,12 @@
+name: CraftZ
+main: io.github.tomash9966.CraftZ.CraftZPlugin
+version: 0.1
+author: Tomash9966
+description: DayZ or WarZ game plugin for bukkit.
+commands:
+  craftz:
+    description: It allows to manage plugin.
+    usage: /craftz
+permissions:
+    craftz.manage:
+      description: This permission allows to manage plugin.

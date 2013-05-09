@@ -35,15 +35,19 @@ public class CraftZPlugin extends JavaPlugin{
 
 		if(cmd.getName().equalsIgnoreCase("craftz")){
 
-			if(sender.hasPermission("craftz.manage")){
+			if(sender instanceof Player){
 
-				if(sender instanceof Player){
+				Player player = (Player) sender;
+
+				if(sender.hasPermission("craftz.manage")){
 
 					if(args.length > 0){
 
 						if(args[0].equals("setlobby")){
 
+							this.config.setLobby(player);
 
+							player.sendMessage(ChatColor.GREEN + "You have set lobby!");
 
 						}
 
@@ -51,11 +55,23 @@ public class CraftZPlugin extends JavaPlugin{
 					else
 					{
 
-						sender.sendMessage(ChatColor.DARK_AQUA + "Available arguments: " + ChatColor.BLUE + "setlobby, lobby, addspawn, delspawn");
+						player.sendMessage(ChatColor.BLUE + "Available arguments: " + ChatColor.GOLD + "setlobby, lobby, addspawn, delspawn");
 
 					}
 
 				}
+				else
+				{
+
+					player.sendMessage(ChatColor.RED + "You don't have permission to perform this command.");
+
+				}
+
+			}
+			else
+			{
+
+				sender.sendMessage(ChatColor.RED + "This command cannot be performed from console.");
 
 			}
 
