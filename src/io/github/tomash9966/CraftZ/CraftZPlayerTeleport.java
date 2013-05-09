@@ -1,5 +1,7 @@
 package io.github.tomash9966.CraftZ;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -22,9 +24,23 @@ public class CraftZPlayerTeleport {
 
 	public void randomSpawn(Player player){
 
-		Location spawn = this.plugin.config.randomSpawn(player);
+		if(this.plugin.config.data.getStringList("data.spawn").size() == 0){
 
-		player.teleport(spawn);
+			player.sendMessage(ChatColor.DARK_RED + "There's no spawns. Please inform administrator!");
+
+			Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_RED + "There's no spawns. Please add couple of them.");
+
+		}
+		else
+		{
+
+			Location spawn = this.plugin.config.randomSpawn(player);
+
+			player.teleport(spawn);
+
+			player.sendMessage(ChatColor.GOLD + "The game has started. Good luck!");
+
+		}
 
 	}
 
