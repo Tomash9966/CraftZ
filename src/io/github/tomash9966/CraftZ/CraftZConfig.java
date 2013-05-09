@@ -128,7 +128,7 @@ public class CraftZConfig {
 
 			List<String> spawnlist = spawn.getStringList("spawn");
 
-			int random = (int)(Math.round(Math.random() * spawnlist.size()));
+			int random = (int)(Math.round(Math.random() * (spawnlist.size() - 1)));
 
 			String[] spawnstring = spawnlist.get(random).trim().split(":");
 

@@ -1,6 +1,6 @@
 package io.github.tomash9966.CraftZ;
 
-import io.github.tomash9966.CraftZ.listeners.PlayerJoinListener;
+import io.github.tomash9966.CraftZ.listeners.PlayerDeathListener;
 
 import java.util.logging.Level;
 
@@ -15,14 +15,16 @@ public class CraftZPlugin extends JavaPlugin{
 
 	public CraftZPlayerTeleport teleport;
 	public CraftZConfig config;
-	public PlayerJoinListener playerjoin;
+	PlayerDeathListener playerdeath;
 
 	public void onEnable(){
 
 		this.teleport = new CraftZPlayerTeleport(this);
 		this.config = new CraftZConfig(this);
 
-		//getServer().getPluginManager().registerEvents(playerjoin, this);
+		this.playerdeath = new PlayerDeathListener(playerdeath, this);
+
+		getServer().getPluginManager().registerEvents(this.playerdeath, this);
 
 		getLogger().log(Level.INFO, "CraftZ has been enabled!");
 
@@ -54,6 +56,7 @@ public class CraftZPlugin extends JavaPlugin{
 							sender.sendMessage(ChatColor.GOLD + "/craftz lobby" + ChatColor.BLUE + " - teleports to lobby.");
 							sender.sendMessage(ChatColor.GOLD + "/craftz addspawn [number]" + ChatColor.BLUE + " - adds spawn location after game start.");
 							sender.sendMessage(ChatColor.GOLD + "/craftz delspawn <number>" + ChatColor.BLUE + " - deletes spawn location.");
+							sender.sendMessage(ChatColor.GOLD + "/craftz spawn" + ChatColor.BLUE + " - starts the game.");
 							sender.sendMessage(ChatColor.GRAY + "##################");
 
 						}
@@ -61,6 +64,12 @@ public class CraftZPlugin extends JavaPlugin{
 						if(args[0].equalsIgnoreCase("setlobby")){
 
 							this.config.setLobby(player);
+
+							int x = player.getLocation().getBlockX();
+							int y = player.getLocation().getBlockY();
+							int z = player.getLocation().getBlockZ();
+
+							player.getWorld().setSpawnLocation(x, y, z);
 
 							player.sendMessage(ChatColor.GREEN + "You have set lobby!");
 
