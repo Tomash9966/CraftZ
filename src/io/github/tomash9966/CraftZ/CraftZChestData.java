@@ -1,6 +1,8 @@
 package io.github.tomash9966.CraftZ;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -31,6 +33,44 @@ public class CraftZChestData {
     	}
 
 	}
+
+    public int addItem(Chest chest, String item){
+
+		String world = chest.getWorld().getName();
+
+		int x = chest.getX();
+		int y = chest.getY();
+		int z = chest.getZ();
+
+		if(this.chestdata.isList("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items")){
+
+			List<String> items = this.chestdata.getStringList("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items");
+
+			items.add(item);
+
+			this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items", items);
+
+			saveData();
+
+			return items.size();
+
+		}
+		else
+		{
+
+			List<String> items = new ArrayList<String>();
+
+			items.add(item);
+
+			this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items", items);
+
+			saveData();
+
+			return items.size();
+
+		}
+
+    }
 
 	public void	addChest(Chest chest){
 

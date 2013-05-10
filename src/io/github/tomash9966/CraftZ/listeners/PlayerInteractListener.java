@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class PlayerInteractListener implements Listener{
 
 	public HashMap<String, Boolean> loot = new HashMap<String, Boolean>();
+	public HashMap<String, String> item = new HashMap<String, String>();
 
 	CraftZPlugin plugin;
 
@@ -47,23 +48,25 @@ public class PlayerInteractListener implements Listener{
 
 			if(action.equals(Action.RIGHT_CLICK_BLOCK)){
 
+				if(this.item.containsKey(player.getName())){
+
+					event.setCancelled(true);
+
+					int number = this.plugin.chestdata.addItem(chest, this.item.get(player.getName()));
+
+					player.sendMessage(ChatColor.GREEN + "Chest with item no. " + String.valueOf(number) + " has been set!");
+
+				}
+
 				if(this.loot.containsKey(player.getName())){
 
-					if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+					event.setCancelled(true);
 
-						if(block.getType().equals(Material.CHEST)){
+					this.plugin.chestdata.addChest(chest);
 
-							event.setCancelled(true);
+					player.sendMessage(ChatColor.GREEN + "Chest with loot has been set!");
 
-							this.plugin.chestdata.addChest(chest);
-
-							player.sendMessage(ChatColor.GREEN + "Chest with loot has been set!");
-
-							this.loot.remove(player.getName());
-
-						}
-
-					}
+					this.loot.remove(player.getName());
 
 				}
 

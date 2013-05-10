@@ -63,9 +63,11 @@ public class CraftZPlugin extends JavaPlugin{
 							sender.sendMessage(ChatColor.GOLD + "/craftz help" + ChatColor.BLUE + " - displays help.");
 							sender.sendMessage(ChatColor.GOLD + "/craftz setlobby" + ChatColor.BLUE + " - sets lobby.");
 							sender.sendMessage(ChatColor.GOLD + "/craftz lobby" + ChatColor.BLUE + " - teleports to lobby.");
-							sender.sendMessage(ChatColor.GOLD + "/craftz addspawn [number]" + ChatColor.BLUE + " - adds spawn location after game start.");
+							sender.sendMessage(ChatColor.GOLD + "/craftz addspawn [number]" + ChatColor.BLUE + " - adds game spawn location.");
 							sender.sendMessage(ChatColor.GOLD + "/craftz delspawn <number>" + ChatColor.BLUE + " - deletes spawn location.");
 							sender.sendMessage(ChatColor.GOLD + "/craftz spawn" + ChatColor.BLUE + " - starts the game.");
+							sender.sendMessage(ChatColor.GOLD + "/craftz addchest" + ChatColor.BLUE + " - adds chest with random loot.");
+							sender.sendMessage(ChatColor.GOLD + "/craftz additem" + ChatColor.BLUE + " - adds item to chest with loot.");
 							sender.sendMessage(ChatColor.GRAY + "##################");
 
 						}
@@ -75,6 +77,38 @@ public class CraftZPlugin extends JavaPlugin{
 							this.playerinteract.loot.put(player.getName(), true);
 
 							player.sendMessage(ChatColor.GOLD + "Click chest in which you want to be loot.");
+
+						}
+
+						if(args[0].equalsIgnoreCase("additem")){
+
+							if(args.length > 3){
+
+								String item;
+
+								if(args.length > 4){
+
+									item = args[1] + ":" + args[2] + ":" + args[3] + ":" + args[4];
+
+								}
+								else
+								{
+
+									item = args[1] + ":" + args[2] + ":" + args[3];
+
+								}
+
+								this.playerinteract.item.put(player.getName(), item);
+
+								player.sendMessage(ChatColor.GOLD + "Click chest in which you want to be item.");
+
+							}
+							else
+							{
+
+								player.sendMessage(ChatColor.RED + "Too few arguments! Usage:" + ChatColor.GOLD + " /craftz additem <id> <min quantity> <max quantity> [data]");
+
+							}
 
 						}
 
@@ -162,7 +196,7 @@ public class CraftZPlugin extends JavaPlugin{
 					else
 					{
 
-						player.sendMessage(ChatColor.BLUE + "Available arguments: " + ChatColor.GOLD + "help, setlobby, lobby, addspawn, delspawn");
+						player.sendMessage(ChatColor.BLUE + "Available arguments: " + ChatColor.GOLD + "help, setlobby, lobby, addspawn, delspawn, addchest, additem");
 
 					}
 
