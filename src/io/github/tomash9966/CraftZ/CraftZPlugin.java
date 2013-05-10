@@ -1,5 +1,6 @@
 package io.github.tomash9966.CraftZ;
 
+import io.github.tomash9966.CraftZ.listeners.CreatureSpawnListener;
 import io.github.tomash9966.CraftZ.listeners.PlayerDeathListener;
 import io.github.tomash9966.CraftZ.listeners.PlayerInteractListener;
 
@@ -21,6 +22,7 @@ public class CraftZPlugin extends JavaPlugin{
 
 	PlayerDeathListener playerdeath;
 	PlayerInteractListener playerinteract;
+	CreatureSpawnListener creaturespawn;
 
 	public void onEnable(){
 
@@ -31,9 +33,11 @@ public class CraftZPlugin extends JavaPlugin{
 
 		this.playerdeath = new PlayerDeathListener(this);
 		this.playerinteract = new PlayerInteractListener(this);
+		this.creaturespawn = new CreatureSpawnListener(this);
 
 		getServer().getPluginManager().registerEvents(this.playerdeath, this);
 		getServer().getPluginManager().registerEvents(this.playerinteract, this);
+		getServer().getPluginManager().registerEvents(this.creaturespawn, this);
 
 		getLogger().log(Level.INFO, "CraftZ has been enabled!");
 
