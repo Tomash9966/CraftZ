@@ -42,7 +42,13 @@ public class PlayerInteractListener implements Listener{
 
 			if(action.equals(Action.LEFT_CLICK_BLOCK)){
 
-				block.setType(Material.AIR);
+				if(this.plugin.chestdata.getChestLastDestroy(block) != 0){
+
+					this.plugin.chestdata.setChestLastDestroy(chest, System.currentTimeMillis());
+
+					block.setType(Material.AIR);
+
+				}
 
 			}
 
@@ -52,9 +58,9 @@ public class PlayerInteractListener implements Listener{
 
 					event.setCancelled(true);
 
-					int number = this.plugin.chestdata.addItem(chest, this.item.get(player.getName()));
+					this.plugin.chestdata.addItem(chest, this.item.get(player.getName()), player);
 
-					player.sendMessage(ChatColor.GREEN + "Chest with item no. " + String.valueOf(number) + " has been set!");
+					this.plugin.chestdata.chestItem(block);
 
 				}
 

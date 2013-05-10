@@ -4,8 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class CraftZChestData {
 
@@ -34,7 +40,7 @@ public class CraftZChestData {
 
 	}
 
-    public int addItem(Chest chest, String item){
+    public void addItem(Chest chest, String item, Player player){
 
 		String world = chest.getWorld().getName();
 
@@ -42,31 +48,51 @@ public class CraftZChestData {
 		int y = chest.getY();
 		int z = chest.getZ();
 
-		if(this.chestdata.isList("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items")){
+		if(this.chestdata.isConfigurationSection("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z))){
 
-			List<String> items = this.chestdata.getStringList("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items");
+			if(this.chestdata.isList("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items")){
 
-			items.add(item);
+				List<String> items = this.chestdata.getStringList("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items");
 
-			this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items", items);
+				items.add(item);
 
-			saveData();
+				this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items", items);
 
-			return items.size();
+				saveData();
+
+				int number = items.size();
+
+				player.sendMessage(ChatColor.GREEN + "Chest with item no. " + String.valueOf(number) + " has been set!");
+
+				this.plugin.playerinteract.item.remove(player.getName());
+
+			}
+			else
+			{
+
+				List<String> items = new ArrayList<String>();
+
+				items.add(item);
+
+				this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items", items);
+
+				saveData();
+
+				int number = items.size();
+
+				player.sendMessage(ChatColor.GREEN + "Chest with item no. " + String.valueOf(number) + " has been set!");
+
+				this.plugin.playerinteract.item.remove(player.getName());
+
+			}
 
 		}
 		else
 		{
 
-			List<String> items = new ArrayList<String>();
+			player.sendMessage(ChatColor.RED + "This chest hasn't be set!");
 
-			items.add(item);
-
-			this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items", items);
-
-			saveData();
-
-			return items.size();
+			this.plugin.playerinteract.item.remove(player.getName());
 
 		}
 
@@ -82,11 +108,17 @@ public class CraftZChestData {
 
 		this.chestdata.createSection("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z));
 
+		chest.setType(Material.AIR);
+
+		chest.setType(Material.CHEST);
+
+		setChestLastDestroy(chest, System.currentTimeMillis());
+
 		saveData();
 
 	}
 
-	public void setChestLastDestroy(Chest chest){
+	public void setChestLastDestroy(Chest chest, Long systemmilis){
 
 		String world = chest.getWorld().getName();
 
@@ -94,25 +126,84 @@ public class CraftZChestData {
 		int y = chest.getY();
 		int z = chest.getZ();
 
-		long systemmilis = System.currentTimeMillis();
-
-		this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z), systemmilis);
+		this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".lastdestroy", systemmilis);
 
 		saveData();
 
 	}
 
-	public long getChestLastDestroy(Chest chest){
+	public long getChestLastDestroy(Block block){
 
-		String world = chest.getWorld().getName();
+		String world = block.getWorld().getName();
 
-		int x = chest.getX();
-		int y = chest.getY();
-		int z = chest.getZ();
+		int x = block.getX();
+		int y = block.getY();
+		int z = block.getZ();
 
-		long lastdestroy = this.chestdata.getLong("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z));
+		long lastdestroy = this.chestdata.getLong("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".lastdestroy");
 
 		return lastdestroy;
+
+	}
+
+	public void chestItem(Block block){
+
+		block.setType(Material.CHEST);
+
+		final Chest chest = (Chest) block.getState();
+
+		String world = chest.getWorld().getName();
+
+		int x = chest.getX();
+		int y = chest.getY();
+		int z = chest.getZ();
+
+		List<String> itemlist = this.chestdata.getStringList("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z));
+
+		for(String itemstring : itemlist){
+
+			String[] itemsplit = itemstring.trim().split(":");
+
+			int id = Integer.valueOf(itemsplit[0]);
+
+			int min = Integer.valueOf(itemsplit[1]);
+			int max = Integer.valueOf(itemsplit[2]);
+
+			int quantity = (int) Math.round((min + Math.random() * (max - min)));
+
+			final ItemStack itemstack = new ItemStack(Material.getMaterial(id), quantity);
+
+			if(itemstring.length() == 3){
+
+				//itemstack = new ItemStack(Material.getMaterial(id), quantity);
+
+			}
+			else
+			{
+
+				//int intdata = Integer.valueOf(itemsplit[3]);
+
+				//short data = (short) intdata;
+
+				//itemstack = new ItemStack(Material.getMaterial(id), quantity, data);
+
+			}
+
+			//chest.getBlockInventory().addItem(itemstack);
+
+	        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+
+	        	public void run() {
+
+	    			chest.getInventory().addItem(itemstack);
+
+	    			chest.update();
+
+	            }
+
+	        }, 20L);
+
+		}
 
 	}
 
