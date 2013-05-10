@@ -74,9 +74,17 @@ public class CraftZPlugin extends JavaPlugin{
 
 						if(args[0].equalsIgnoreCase("addchest")){
 
-							this.playerinteract.loot.put(player.getName(), true);
+							this.playerinteract.addloot.put(player.getName(), true);
 
 							player.sendMessage(ChatColor.GOLD + "Click chest in which you want to be loot.");
+
+						}
+
+						if(args[0].equalsIgnoreCase("delchest")){
+
+							this.playerinteract.delloot.put(player.getName(), true);
+
+							player.sendMessage(ChatColor.GOLD + "Click chest which do you want to remove.");
 
 						}
 
@@ -98,7 +106,7 @@ public class CraftZPlugin extends JavaPlugin{
 
 								}
 
-								this.playerinteract.item.put(player.getName(), item);
+								this.playerinteract.additem.put(player.getName(), item);
 
 								player.sendMessage(ChatColor.GOLD + "Click chest in which you want to be item.");
 

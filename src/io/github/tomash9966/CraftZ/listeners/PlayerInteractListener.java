@@ -16,8 +16,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class PlayerInteractListener implements Listener{
 
-	public HashMap<String, Boolean> loot = new HashMap<String, Boolean>();
-	public HashMap<String, String> item = new HashMap<String, String>();
+	public HashMap<String, Boolean> addloot = new HashMap<String, Boolean>();
+	public HashMap<String, String> additem = new HashMap<String, String>();
+
+	public HashMap<String, Boolean> delloot = new HashMap<String, Boolean>();
 
 	CraftZPlugin plugin;
 
@@ -54,17 +56,17 @@ public class PlayerInteractListener implements Listener{
 
 			if(action.equals(Action.RIGHT_CLICK_BLOCK)){
 
-				if(this.item.containsKey(player.getName())){
+				if(this.additem.containsKey(player.getName())){
 
 					event.setCancelled(true);
 
-					this.plugin.chestdata.addItem(chest, this.item.get(player.getName()), player);
+					this.plugin.chestdata.addItem(chest, this.additem.get(player.getName()), player);
 
 					this.plugin.chestdata.chestItem(block);
 
 				}
 
-				if(this.loot.containsKey(player.getName())){
+				if(this.addloot.containsKey(player.getName())){
 
 					event.setCancelled(true);
 
@@ -72,7 +74,31 @@ public class PlayerInteractListener implements Listener{
 
 					player.sendMessage(ChatColor.GREEN + "Chest with loot has been set!");
 
-					this.loot.remove(player.getName());
+					this.addloot.remove(player.getName());
+
+				}
+
+				if(this.delloot.containsKey(player.getName())){
+
+					event.setCancelled(true);
+
+					this.plugin.chestdata.removeChest(chest);
+
+					player.sendMessage(ChatColor.GREEN + "Chest with loot has been removed!");
+
+					block.setType(Material.AIR);
+
+					this.delloot.remove(player.getName());
+
+				}
+
+				if(this.plugin.chestdata.getChestLastDestroy(block) != 0){
+
+					event.setCancelled(true);
+
+					this.plugin.chestdata.setChestLastDestroy(chest, System.currentTimeMillis());
+
+					block.setType(Material.AIR);
 
 				}
 

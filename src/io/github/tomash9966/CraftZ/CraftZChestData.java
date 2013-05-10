@@ -64,7 +64,7 @@ public class CraftZChestData {
 
 				player.sendMessage(ChatColor.GREEN + "Chest with item no. " + String.valueOf(number) + " has been set!");
 
-				this.plugin.playerinteract.item.remove(player.getName());
+				this.plugin.playerinteract.additem.remove(player.getName());
 
 			}
 			else
@@ -82,7 +82,7 @@ public class CraftZChestData {
 
 				player.sendMessage(ChatColor.GREEN + "Chest with item no. " + String.valueOf(number) + " has been set!");
 
-				this.plugin.playerinteract.item.remove(player.getName());
+				this.plugin.playerinteract.additem.remove(player.getName());
 
 			}
 
@@ -92,7 +92,7 @@ public class CraftZChestData {
 
 			player.sendMessage(ChatColor.RED + "This chest hasn't be set!");
 
-			this.plugin.playerinteract.item.remove(player.getName());
+			this.plugin.playerinteract.additem.remove(player.getName());
 
 		}
 
@@ -108,11 +108,21 @@ public class CraftZChestData {
 
 		this.chestdata.createSection("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z));
 
-		chest.setType(Material.AIR);
-
-		chest.setType(Material.CHEST);
-
 		setChestLastDestroy(chest, System.currentTimeMillis());
+
+		saveData();
+
+	}
+
+	public void removeChest(Chest chest){
+
+		String world = chest.getWorld().getName();
+
+		int x = chest.getX();
+		int y = chest.getY();
+		int z = chest.getZ();
+
+		this.chestdata.set("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z), null);
 
 		saveData();
 
@@ -158,7 +168,7 @@ public class CraftZChestData {
 		int y = chest.getY();
 		int z = chest.getZ();
 
-		List<String> itemlist = this.chestdata.getStringList("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z));
+		List<String> itemlist = this.chestdata.getStringList("chestdata." + world + ":" + String.valueOf(x) + ":" + String.valueOf(y) + ":" + String.valueOf(z) + ".items");
 
 		for(String itemstring : itemlist){
 
@@ -171,27 +181,25 @@ public class CraftZChestData {
 
 			int quantity = (int) Math.round((min + Math.random() * (max - min)));
 
-			final ItemStack itemstack = new ItemStack(Material.getMaterial(id), quantity);
+			final ItemStack itemstack;
 
 			if(itemstring.length() == 3){
 
-				//itemstack = new ItemStack(Material.getMaterial(id), quantity);
+				itemstack = new ItemStack(Material.getMaterial(id), quantity);
 
 			}
 			else
 			{
 
-				//int intdata = Integer.valueOf(itemsplit[3]);
+				int intdata = Integer.valueOf(itemsplit[3]);
 
-				//short data = (short) intdata;
+				short data = (short) intdata;
 
-				//itemstack = new ItemStack(Material.getMaterial(id), quantity, data);
+				itemstack = new ItemStack(Material.getMaterial(id), quantity, data);
 
 			}
 
-			//chest.getBlockInventory().addItem(itemstack);
-
-	        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+	        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 
 	        	public void run() {
 
