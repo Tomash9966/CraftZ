@@ -34,71 +34,75 @@ public class PlayerInteractListener implements Listener{
 
 		Player player = event.getPlayer();
 
-		Block block = event.getClickedBlock();
+		Action action = event.getAction();
 
-		if(block.getType().equals(Material.CHEST)){
+		if(action.equals(Action.LEFT_CLICK_BLOCK) || action.equals(Action.RIGHT_CLICK_BLOCK)){
 
-			Chest chest = (Chest) block.getState();
+			Block block = event.getClickedBlock();
 
-			Action action = event.getAction();
+			if(block.getType().equals(Material.CHEST)){
 
-			if(action.equals(Action.LEFT_CLICK_BLOCK)){
+				Chest chest = (Chest) block.getState();
 
-				if(this.plugin.chestdata.getChestLastDestroy(block) != 0){
+				if(action.equals(Action.LEFT_CLICK_BLOCK)){
 
-					this.plugin.chestdata.setChestLastDestroy(chest, System.currentTimeMillis());
+					if(this.plugin.chestdata.getChestLastDestroy(block) != 0){
 
-					block.setType(Material.AIR);
+						this.plugin.chestdata.setChestLastDestroy(chest, System.currentTimeMillis());
 
-				}
+						block.setType(Material.AIR);
 
-			}
-
-			if(action.equals(Action.RIGHT_CLICK_BLOCK)){
-
-				if(this.additem.containsKey(player.getName())){
-
-					event.setCancelled(true);
-
-					this.plugin.chestdata.addItem(chest, this.additem.get(player.getName()), player);
-
-					this.plugin.chestdata.chestItem(block);
+					}
 
 				}
 
-				if(this.addloot.containsKey(player.getName())){
+				if(action.equals(Action.RIGHT_CLICK_BLOCK)){
 
-					event.setCancelled(true);
+					if(this.additem.containsKey(player.getName())){
 
-					this.plugin.chestdata.addChest(chest);
+						event.setCancelled(true);
 
-					player.sendMessage(ChatColor.GREEN + "Chest with loot has been set!");
+						this.plugin.chestdata.addItem(chest, this.additem.get(player.getName()), player);
 
-					this.addloot.remove(player.getName());
+						this.plugin.chestdata.chestItem(block);
 
-				}
+					}
 
-				if(this.delloot.containsKey(player.getName())){
+					if(this.addloot.containsKey(player.getName())){
 
-					event.setCancelled(true);
+						event.setCancelled(true);
 
-					this.plugin.chestdata.removeChest(chest);
+						this.plugin.chestdata.addChest(chest);
 
-					player.sendMessage(ChatColor.GREEN + "Chest with loot has been removed!");
+						player.sendMessage(ChatColor.GREEN + "Chest with loot has been set!");
 
-					block.setType(Material.AIR);
+						this.addloot.remove(player.getName());
 
-					this.delloot.remove(player.getName());
+					}
 
-				}
+					if(this.delloot.containsKey(player.getName())){
 
-				if(this.plugin.chestdata.getChestLastDestroy(block) != 0){
+						event.setCancelled(true);
 
-					event.setCancelled(true);
+						this.plugin.chestdata.removeChest(chest);
 
-					this.plugin.chestdata.setChestLastDestroy(chest, System.currentTimeMillis());
+						player.sendMessage(ChatColor.GREEN + "Chest with loot has been removed!");
 
-					block.setType(Material.AIR);
+						block.setType(Material.AIR);
+
+						this.delloot.remove(player.getName());
+
+					}
+
+					if(this.plugin.chestdata.getChestLastDestroy(block) != 0){
+
+						event.setCancelled(true);
+
+						this.plugin.chestdata.setChestLastDestroy(chest, System.currentTimeMillis());
+
+						block.setType(Material.AIR);
+
+					}
 
 				}
 
