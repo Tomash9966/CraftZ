@@ -64,10 +64,10 @@ public class CreatureSpawnListener implements Listener{
 		        	gs.a(1, new PathfinderGoalBreakDoor(zombie));
 		        	gs.a(2, new PathfinderGoalMeleeAttack(zombie, EntityHuman.class, speed, false));
 		        	gs.a(3, new PathfinderGoalMeleeAttack(zombie, EntityVillager.class, speed, true));
-		        	gs.a(4, new PathfinderGoalMoveTowardsRestriction(zombie, speed));
-		        	gs.a(5, new PathfinderGoalMoveThroughVillage(zombie, speed, false));
-		        	gs.a(6, new PathfinderGoalRandomStroll(zombie, speed));
-		        	gs.a(7, new PathfinderGoalLookAtPlayer(zombie, EntityHuman.class, 15.0F));
+		        	gs.a(4, new PathfinderGoalMoveTowardsRestriction(zombie, 0.23F));
+		        	gs.a(5, new PathfinderGoalMoveThroughVillage(zombie, 0.23F, false));
+		        	gs.a(6, new PathfinderGoalRandomStroll(zombie, 0.23F));
+		        	gs.a(7, new PathfinderGoalLookAtPlayer(zombie, EntityHuman.class, 0.23F));
 		        	gs.a(7, new PathfinderGoalRandomLookaround(zombie));
 		        	fGoalSelector.set(zombie, gs);
 
